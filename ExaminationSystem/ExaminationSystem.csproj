@@ -117,6 +117,7 @@
     <Compile Include="entities\ExamQuestion.cs" />
     <Compile Include="entities\ExamSession.cs" />
     <Compile Include="entities\Instructor.cs" />
+    <Compile Include="entities\MyInstructor.cs" />
     <Compile Include="entities\Question.cs" />
     <Compile Include="entities\QuestionAnswer.cs" />
     <Compile Include="entities\Student.cs" />
@@ -134,6 +135,12 @@
     <Compile Include="instatnce\MyExam.cs" />
     <Compile Include="instatnce\MyExamSession.cs" />
     <Compile Include="instatnce\MyStudent.cs" />
+    <Compile Include="Instructor_Profile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Instructor_Profile.Designer.cs">
+      <DependentUpon>Instructor_Profile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,6 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExamGeneration.resx">
       <DependentUpon>ExamGeneration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Instructor_Profile.resx">
+      <DependentUpon>Instructor_Profile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

@@ -39,8 +39,11 @@ namespace ExaminationSystem
             dataGridView1.Hide();
             dataGridView2.Hide();
             student = MyStudent.Student;
-            exams = StudentDAL.GetAvailabeExams(1);
-            grades1 = StudentDAL.getStudentGrades(3);
+            MyAdmin.Admin = new Admin();
+            MyAdmin.Admin.Id = 1;
+
+            exams = StudentDAL.GetAvailabeExams(student.Id);
+            grades1 = StudentDAL.getStudentGrades(student.Id);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -78,13 +81,14 @@ namespace ExaminationSystem
          //   MessageBox.Show("starting to close profile");
             int index = dataGridView1.CurrentCell.RowIndex;
             MyExam.Exam = exams[index];
+            MyExam.Exam.Id = exams[index].Id;
             
             Student_TakingExam ste = new Student_TakingExam();
            
             ste.Show();
-          //  this.Close();
+            this.Close();
            
-            MessageBox.Show("student profile should be off");
+            //MessageBox.Show("student profile should be off");
         }
     }
 }

@@ -115,6 +115,12 @@ namespace ExaminationSystem.DAL
             return result;
         }
         
+        public static bool setFinishExam(int exam_id)
+        {
+            return DBLayer.ExecuteNonQuery(string.Format("update Exam set flag = '{1}' where id = {0}", exam_id,true)) > 0;
+        }
+
+
     // get availabe exams for student without course type
     public static ExamCollection GetAvailabeExams(int id)
     {

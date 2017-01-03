@@ -26,17 +26,17 @@ namespace ExaminationSystem
         RadioButton checkTrue;
         RadioButton checkFalse;
 
-        TextBox choiceALabel;
-        TextBox choiceBLabel;
-        TextBox choiceCLabel;
-        TextBox choiceDLabel;
+        Label choiceALabel;
+        Label choiceBLabel;
+        Label choiceCLabel;
+        Label choiceDLabel;
 
         Label checkTrueLabel;
         Label checkFalseLabel;
 
         RichTextBox questionAnswer;
 
-        int count=0;
+        int count = 0;
 
 
         ExamQuestionCollection examQuestions;
@@ -50,21 +50,21 @@ namespace ExaminationSystem
         {
             //Data Source=BASMA-HP\SQLEXPRESS;Initial Catalog=ExaminationSystems;Integrated Security=True
             //Data Source=.;Initial Catalog=ExaminationSystems;Integrated Security=True
-            DBLayer.connection = @"Data Source=.;Initial Catalog=ExaminationSystems;Integrated Security=True";
+            //DBLayer.connection = @"Data Source=.;Initial Catalog=ExaminationSystems;Integrated Security=True";
+            DBLayer.connection = @"Data Source=FATMA\FATMAGAMAL;Initial Catalog=ExaminationSystems;Integrated Security=True";
 
             SqlConnection sqlConnection = new SqlConnection(DBLayer.connection);
 
             //course_id should come as a parameter to the form in the first place
             //getExamQuestions(sqlConnection, course_id, student_id);
-            MessageBox.Show(MyExam.Exam.ExamSessions[0].Id.ToString()+"   " + MyExam.Exam.Id.ToString());
-             
-             getExamQuestions(sqlConnection, 1, 1);
+            //MessageBox.Show(MyExam.Exam.ExamSessions[0].Id.ToString() + "   " + MyExam.Exam.Id.ToString());
 
-            do
+            examQuestions = ExamQuestionDAL.GetExamQuestions(MyExam.Exam.Id);
+
+            if (count > 0)
             {
                 showQuestion(count);
             }
-            while (count <= examQuestions.Count - 1);
         }
 
         private void showQuestion(int number)
@@ -82,11 +82,12 @@ namespace ExaminationSystem
                     QuestionPanel.Controls.Clear(); //to remove all controls
 
                     choiceA = new RadioButton();
-                    choiceA.Location = new Point(questioncontent.Location.X, questioncontent.Location.Y + questioncontent.Height+incrementValueLocationY);
+                    choiceA.Location = new Point(questioncontent.Location.X, questioncontent.Location.Y + questioncontent.Height + incrementValueLocationY);
                     QuestionPanel.Controls.Add(choiceA);
 
-                    choiceALabel = new TextBox();
+                    choiceALabel = new Label();
                     choiceALabel.Location = new Point(choiceA.Location.X + incrementValueLocationX + choiceA.Size.Width, questioncontent.Location.Y + questioncontent.Height + incrementValueLocationY);
+                    choiceALabel.Text = examQuestions[number].Question.Answers[0].Answer;
                     QuestionPanel.Controls.Add(choiceALabel);
 
 
@@ -94,8 +95,9 @@ namespace ExaminationSystem
                     choiceB.Location = new Point(questioncontent.Location.X, choiceA.Location.Y + choiceA.Height + incrementValueLocationY);
                     QuestionPanel.Controls.Add(choiceB);
 
-                    choiceBLabel = new TextBox();
+                    choiceBLabel = new Label();
                     choiceBLabel.Location = new Point(choiceB.Location.X + incrementValueLocationX + choiceB.Size.Width, choiceA.Location.Y + choiceA.Height + incrementValueLocationY);
+                    choiceBLabel.Text = examQuestions[number].Question.Answers[1].Answer;
                     QuestionPanel.Controls.Add(choiceBLabel);
 
 
@@ -103,8 +105,9 @@ namespace ExaminationSystem
                     choiceC.Location = new Point(questioncontent.Location.X, choiceB.Location.Y + choiceB.Height + incrementValueLocationY);
                     QuestionPanel.Controls.Add(choiceC);
 
-                    choiceCLabel = new TextBox();
+                    choiceCLabel = new Label();
                     choiceCLabel.Location = new Point(choiceC.Location.X + incrementValueLocationX + choiceC.Size.Width, choiceB.Location.Y + choiceB.Height + incrementValueLocationY);
+                    choiceCLabel.Text = examQuestions[number].Question.Answers[2].Answer;
                     QuestionPanel.Controls.Add(choiceCLabel);
 
 
@@ -112,21 +115,22 @@ namespace ExaminationSystem
                     choiceD.Location = new Point(questioncontent.Location.X, choiceC.Location.Y + choiceC.Height + incrementValueLocationY);
                     QuestionPanel.Controls.Add(choiceD);
 
-                    choiceDLabel = new TextBox();
+                    choiceDLabel = new Label();
                     choiceDLabel.Location = new Point(choiceD.Location.X + incrementValueLocationX + choiceD.Size.Width, choiceC.Location.Y + choiceC.Height + incrementValueLocationY);
+                    choiceDLabel.Text = examQuestions[number].Question.Answers[3].Answer;
                     QuestionPanel.Controls.Add(choiceDLabel);
                     break;
 
                 case 2:
-                    
+
                     QuestionPanel.Controls.Clear(); //to remove all controls
                     //all radio buttons should be in the same group
                     checkTrue = new RadioButton();
                     checkTrue.Location = new Point(questioncontent.Location.X, questioncontent.Location.Y + questioncontent.Height + incrementValueLocationY);
                     QuestionPanel.Controls.Add(checkTrue);
-                    
+
                     checkTrueLabel = new Label();
-                    checkTrueLabel.Text = "True";
+                    checkTrueLabel.Text = examQuestions[number].Question.Answers[0].Answer;
                     checkTrueLabel.Location = new Point(checkTrue.Location.X + incrementValueLocationX + checkTrue.Size.Width, questioncontent.Location.Y + questioncontent.Height + incrementValueLocationY);
                     QuestionPanel.Controls.Add(checkTrueLabel);
 
@@ -134,9 +138,9 @@ namespace ExaminationSystem
                     checkFalse = new RadioButton();
                     checkFalse.Location = new Point(checkTrue.Location.X, checkTrue.Location.Y + checkTrue.Height + incrementValueLocationY);
                     QuestionPanel.Controls.Add(checkFalse);
-                    
+
                     checkFalseLabel = new Label();
-                    checkFalseLabel.Text = "False";
+                    checkFalseLabel.Text = examQuestions[number].Question.Answers[1].Answer;
                     checkFalseLabel.Location = new Point(checkFalse.Location.X + incrementValueLocationX + checkFalse.Size.Width, checkTrue.Location.Y + checkTrue.Height + incrementValueLocationY);
                     QuestionPanel.Controls.Add(checkFalseLabel);
 
@@ -145,90 +149,30 @@ namespace ExaminationSystem
                 case 3:
                     QuestionPanel.Controls.Clear(); //to remove all controls
                     questionAnswer = new RichTextBox();
-                    questionAnswer.Location = new Point(questioncontent.Location.X + incrementValueLocationX, questioncontent.Location.Y+ incrementValueLocationY + questioncontent.Height);
+                    questionAnswer.Location = new Point(questioncontent.Location.X + incrementValueLocationX, questioncontent.Location.Y + incrementValueLocationY + questioncontent.Height);
                     questionAnswer.Height = 150;
                     questionAnswer.Width = 550;
                     QuestionPanel.Controls.Add(questionAnswer);
                     break;
             }
-         
-        }
-
-        private void getExamQuestions(SqlConnection sqlConnection, int course_id, int student_id)
-        {
-            //get examsession id
-            SqlCommand sqlCommandM = new SqlCommand(string.Format("select FK_ExamSessionID from Course_ExamSession_Admin inner join ExamSession_Student_Admin on ExamSession_Student_Admin.FK_Exam_ExamSessionID = Course_ExamSession_Admin.FK_Exam_ExamSessionID where FK_CourseID = {0} and FK_StudentID = {1}", course_id, student_id), sqlConnection);
-            SqlDataAdapter sqlAdapterM = new SqlDataAdapter(sqlCommandM);
-            DataTable resultTable = new DataTable();
-            sqlAdapterM.Fill(resultTable);
-
-            //get exam id
-            sqlCommandM.CommandText = string.Format("select FK_ExamID from ExamSession where session_ID = {0}", resultTable.Rows[0]);
-            sqlAdapterM.SelectCommand = sqlCommandM;
-            sqlAdapterM.Fill(resultTable);
-
-            //get questions ids of exam
-            sqlCommandM.CommandText = string.Format("select FK_QuestionID from Question_Exam where FK_ExamID = {0}", resultTable.Rows[0]);
-            sqlAdapterM.SelectCommand = sqlCommandM;
-            sqlAdapterM.Fill(resultTable);
-
-
-            //get questions 
-            SqlCommand sqlCommandQ = new SqlCommand(string.Format("select * from Question where id = {0}", resultTable.Rows[0]), sqlConnection);
-            SqlDataAdapter sqlAdapterQ = new SqlDataAdapter(sqlCommandQ);
-            DataTable resultAnswerTable = new DataTable();
-            sqlAdapterM.Fill(resultTable);
-
-            //get questions answers
-            sqlCommandM.CommandText = string.Format("select * from Question_ans where Quest_ID = {0}", resultTable.Rows[0]);
-            sqlAdapterM.SelectCommand = sqlCommandM;
-            sqlAdapterM.Fill(resultTable);
-
-            examQuestions = new ExamQuestionCollection();
-
-            for (int i = 0; i < resultTable.Rows.Count; i++)
-            {
-                DataRow dr = resultTable.Rows[i];
-                ExamQuestion q = new ExamQuestion();
-                q.Exam = new Exam();
-                q.Exam.Id = Convert.ToInt32(dr["id"]);
-                q.Question = new Question();
-                q.Question.Id = Convert.ToInt32(dr["id"]);
-                q.Question.QuestionText = dr["question_text"].ToString();
-
-                q.Question.Modelanswer = new QuestionAnswer();
-                q.Question.Modelanswer = (QuestionAnswer)dr["question_modelAns"];
-
-                q.Question.Type = Convert.ToInt32(dr["question_type"]);
-
-                q.Question.Course = new Course();
-                q.Question.Course.Id = Convert.ToInt32(dr["Course_ID"]);
-
-                q.Answers = new QuestionAnswerCollection();
-                for (int j = 0; j < resultAnswerTable.Rows.Count; j++)
-                {
-                    DataRow dra = resultAnswerTable.Rows[i];
-                    QuestionAnswer qa = new QuestionAnswer();
-                    qa.ID = Convert.ToInt32(dr["id"]);
-                    qa.Answer = dr["text"].ToString();
-                    q.Answers.Add(qa);
-                }
-
-                examQuestions.Add(q);
-            }
+            
 
         }
+        
 
         private void nextBtn_Click(object sender, EventArgs e)
         {
+            if (count <= (examQuestions.Count - 1))
+            {
             StudentAnswer sa = new StudentAnswer();
             int type = examQuestions[count].Question.Type;
             sa.Q = examQuestions[count].Question;
+            //sa.Q.Type = type;
             //sa.S = StudentDAL.GetById(student_id);
-            sa.S = StudentDAL.GetById(1);
+            sa.S = MyStudent.Student;
             sa.Solved = true;
             //how to get the exam
-            //sa.E = ExamDAL.getById(ex)
+            sa.E = MyExam.Exam;
 
             switch (type)
             {
@@ -239,23 +183,15 @@ namespace ExaminationSystem
                     }
                     else
                     {
+                            //how to get the answer from the question
 
-                        QuestionAnswer answer1 = new QuestionAnswer();
-                        QuestionAnswer answer2 = new QuestionAnswer();
-                        QuestionAnswer answer3 = new QuestionAnswer();
-                        QuestionAnswer answer4 = new QuestionAnswer();
+                            QuestionAnswer answer1 = examQuestions[count].Question.Answers[0];
+                            QuestionAnswer answer2 = examQuestions[count].Question.Answers[1];
+                            QuestionAnswer answer3 = examQuestions[count].Question.Answers[2];
+                            QuestionAnswer answer4 = examQuestions[count].Question.Answers[3];
 
-                        answer1.Answer = choiceALabel.Text;
-                        answer2.Answer = choiceBLabel.Text;
-                        answer3.Answer = choiceCLabel.Text;
-                        answer4.Answer = choiceDLabel.Text;
-
-                        //get student
-                        //get examsessions
-                        //get exam
-                        //get exam from examquestion
-                        //get question from exams of student
-                        
+               
+                       
                         sa.Qa = new QuestionAnswer();
 
                         if (choiceA.Checked)
@@ -276,14 +212,10 @@ namespace ExaminationSystem
                     }
                     else
                     {
-                        QuestionAnswer trueAnswer = new QuestionAnswer();
-                        QuestionAnswer falseAnswer = new QuestionAnswer();
-
-                        trueAnswer.Answer = checkTrueLabel.Text;
-                        falseAnswer.Answer = checkFalseLabel.Text;
-
+                        QuestionAnswer trueAnswer = examQuestions[count].Question.Answers[0];
+                        QuestionAnswer falseAnswer = examQuestions[count].Question.Answers[1];
+                            
                         sa.Qa = new QuestionAnswer();
-
 
                         if (checkTrue.Checked)
                             sa.Qa.Answer = checkTrueLabel.Text;
@@ -299,14 +231,12 @@ namespace ExaminationSystem
                     }
                     else
                     {
-
-                        QuestionAnswer essayAnswer = new QuestionAnswer();
+                            QuestionAnswer essayAnswer = examQuestions[count].Question.Answers[0];
 
                         essayAnswer.Answer = questionAnswer.Text;
                         sa.Qa = new QuestionAnswer();
-
-                        sa.Qa.Answer = "";
-
+                            sa.Qa.Answer = questionAnswer.Text;
+                            
                     }
                     break;
             }
@@ -314,30 +244,49 @@ namespace ExaminationSystem
 
             //add in Student_Question_Exam
             StudentAnswerDAL.Add(sa);
-            count++;
+
+            if (++count <= (examQuestions.Count - 1))
+            {
+                showQuestion(count);    
+            }
+            
+            }
 
         }
 
         private void submitBtn_Click(object sender, EventArgs e)
         {
-            string connection = @"Data Source=BASMA-HP\SQLEXPRESS;Initial Catalog=ExaminationSystems;Integrated Security=True";
-            SqlConnection sqlConnection = new System.Data.SqlClient.SqlConnection(connection);
+            //grading procedure
+            /*
+            //string connection = @"Data Source=BASMA-HP\SQLEXPRESS;Initial Catalog=ExaminationSystems;Integrated Security=True";
+            SqlConnection sqlConnection = new System.Data.SqlClient.SqlConnection(DBLayer.connection);
             SqlCommand sqlCommand = new SqlCommand();
             sqlConnection.Open();
             sqlCommand.CommandText = "Exam_Correction";
             sqlCommand.CommandType = CommandType.StoredProcedure;
             //sqlCommand.Parameters.AddWithValue("@Exam_ID", exam_id);
-            sqlCommand.Parameters.AddWithValue("@Exam_ID", 1);
+            sqlCommand.Parameters.AddWithValue("@Exam_ID", MyExam.Exam.Id);
             //sqlCommand.Parameters.AddWithValue("@Student_ID", student_id);
-            sqlCommand.Parameters.AddWithValue("@Student_ID", 1);
+            sqlCommand.Parameters.AddWithValue("@Student_ID", MyStudent.Student.Id);
             sqlCommand.Connection = sqlConnection;
             sqlCommand.ExecuteNonQuery();
             sqlConnection.Close();
+            */
+
+            StudentDAL.setFinishExam(MyExam.Exam.Id);
+            Student_Profile f = new Student_Profile();
+            f.Show();
+            this.Close();
+
         }
 
         private void backBtn_Click(object sender, EventArgs e)
         {
-            count--;
+
+            if (--count > 0)
+            {
+                showQuestion(count);
+            }
         }
     }
 }

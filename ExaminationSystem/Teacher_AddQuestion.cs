@@ -41,8 +41,10 @@ namespace ExaminationSystem
         private void Teacher_AddQuestion_Load(object sender, EventArgs e)
         {
             //Data Source=BASMA-HP\SQLEXPRESS;Initial Catalog=ExaminationSystems;Integrated Security=True
-           // DBLayer.connection = @"Data Source=BASMA-HP\SQLEXPRESS;Initial Catalog=ExaminationSystems;Integrated Security=True";
-            DBLayer.connection = @"Data Source=.;Initial Catalog=ExaminationSystems;Integrated Security=True";
+            // DBLayer.connection = @"Data Source=BASMA-HP\SQLEXPRESS;Initial Catalog=ExaminationSystems;Integrated Security=True";
+            //DBLayer.connection = @"Data Source=.;Initial Catalog=ExaminationSystems;Integrated Security=True";
+            //DBLayer.connection = @"Data Source=FATMA\FATMAGAMAL;Initial Catalog=ExaminationSystems;Integrated Security=True";
+            DBLayer.connection = @"Data Source=FATMA\FATMAGAMAL;Initial Catalog=ExaminationSystems;Integrated Security=True";
 
             SqlConnection sqlConnection = new SqlConnection(DBLayer.connection);
 
@@ -273,6 +275,11 @@ namespace ExaminationSystem
 
         }
 
-
+        private void FinishAddingBtn_Click(object sender, EventArgs e)
+        {
+            Instructor_Profile f = new Instructor_Profile();
+            f.Show();
+            this.Hide();
+        }
     }
 }

@@ -11,8 +11,6 @@ namespace ExaminationSystem.entities
     {
         int id;
         Question question;
-        QuestionAnswerCollection answers;
-        //StudentCollection studentAnswers;
         Exam exam;
 
 
@@ -71,18 +69,6 @@ namespace ExaminationSystem.entities
             }
         }
 
-        internal QuestionAnswerCollection Answers
-        {
-            get
-            {
-                return answers;
-            }
-
-            set
-            {
-                answers = value;
-            }
-        }
 
         //internal StudentCollection StudentAnswers
         //{

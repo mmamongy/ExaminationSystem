@@ -13,7 +13,7 @@ namespace ExaminationSystem.DAL
 
         public static StudentAnswer Add(StudentAnswer sa)
         {
-            sa.Id = Convert.ToInt32(DBLayer.ExecuteScalar(string.Format("insert into Student_Exam_Question values({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7});select @@identity", sa.Id, sa.S.Id, sa.E.Id, null, sa.Solved, sa.Qa.Answer,sa.Q.Id)));
+            sa.Id = Convert.ToInt32(DBLayer.ExecuteScalar(string.Format("insert into Student_Exam_Question values({0}, {1}, {2}, '{3}', '{4}', {5});select @@identity", sa.S.Id, sa.E.Id, sa.Q.Id, sa.Solved, sa.Qa.Answer, sa.Q.Id)));
             return sa;
         }
     }

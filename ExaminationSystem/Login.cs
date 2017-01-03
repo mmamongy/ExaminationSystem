@@ -59,7 +59,11 @@ namespace ExaminationSystem
                 }
                 else
                 {
-
+                    loggedInstructor = InstructorDAL.GetByUserNameAndPassword(UserNameTextBox.Text, PasswordTextBox.Text);
+                    MyInstructor.Instructor = loggedInstructor;
+                    Instructor_Profile f = new Instructor_Profile();
+                    f.Show();
+                    this.Hide();
                 }
             }
             else if (studRadBtn.Checked)

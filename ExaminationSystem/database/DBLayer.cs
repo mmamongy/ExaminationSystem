@@ -12,9 +12,9 @@ namespace ExaminationSystem.database
     {
         //add your own connection here
         //public static string connection = @"Data Source=BASMA-HP\SQLEXPRESS;Initial Catalog=ExaminationSystems;Integrated Security=True";
-        //public static string connection = @"Data Source=FATMA\FATMAGAMAL;Initial Catalog=ExaminationSystems;Integrated Security=True";
+        public static string connection = @"Data Source=FATMA\FATMAGAMAL;Initial Catalog=ExaminationSystems;Integrated Security=True";
         //public static string connection = @"Data Source=.;Initial Catalog=ExaminationSystems;Integrated Security=True";
-        public static string connection = @"Data Source=.;Initial Catalog=ExaminationSystems;Integrated Security=True";
+        //public static string connection = @"Data Source=.;Initial Catalog=ExaminationSystems;Integrated Security=True";
 
         public static DataTable ExecuteQuery(string selectCommand)
         {
@@ -30,6 +30,18 @@ namespace ExaminationSystem.database
             int result;
             SqlConnection sqlConnection = new SqlConnection(connection);
             sqlCommand.Connection = sqlConnection;
+            sqlConnection.Open();
+            result = sqlCommand.ExecuteNonQuery();
+            sqlConnection.Close();
+            return result;
+        }
+
+
+        public static int ExecuteNonQuery(string nonQueryCommand)
+        {
+            int result;
+            SqlConnection sqlConnection = new SqlConnection(connection);
+            SqlCommand sqlCommand = new SqlCommand(nonQueryCommand, sqlConnection);
             sqlConnection.Open();
             result = sqlCommand.ExecuteNonQuery();
             sqlConnection.Close();

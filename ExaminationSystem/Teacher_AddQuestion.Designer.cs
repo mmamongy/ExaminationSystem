@@ -62,6 +62,7 @@
             this.FinishAddingBtn.TabIndex = 2;
             this.FinishAddingBtn.Text = "Finish";
             this.FinishAddingBtn.UseVisualStyleBackColor = true;
+            this.FinishAddingBtn.Click += new System.EventHandler(this.FinishAddingBtn_Click);
             // 
             // QuestionPanel
             // 

@@ -20,14 +20,14 @@ namespace ExaminationSystem
             //Application.Run(new Admin_addCourse());
             //Application.Run(new Teacher_AddQuestion());
             //Application.Run(new Admin_deleteCourse());
-            //Application.Run(new Login());
+            Application.Run(new Login());
             //Application.Run(new Admin_addCourse());
             //Application.Run(new Admin_deleteCourse());
             //Application.Run(new Admin_UpdateCourse());
             //Application.Run(new Admin_viewCourses());
             //Application.Run(new Teacher_AddQuestion());
             //Application.Run(new Admin_viewCourses());
-            Application.Run(new Student_Profile());
+            //Application.Run(new Student_Profile());
             //Application.Run(new AdminProfile());
         }
     }
